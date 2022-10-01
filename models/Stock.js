@@ -3,11 +3,16 @@ const { ObjectID } = mongoose.Schema.Types;
 const validator = require("validator");
 
 //Schema design
-const productSchema = mongoose.Schema(
+const stockSchema = mongoose.Schema(
   {
+    productId: {
+      type: ObjectID,
+      required: true,
+      ref: "Product",
+    },
     name: {
       type: String,
-      required: [true, "Please provide a name for this product"],
+      required: [true, "Please provide a name for this Stock"],
       trim: true,
       unique: [true, "Name must be unique!"],
       lowercase: true,
@@ -16,16 +21,16 @@ const productSchema = mongoose.Schema(
     },
     description: {
       type: String,
-      required: [true, "Please provide a description for this product"],
+      required: [true, "Please provide a description for this Stock"],
     },
     price: {
       type: Number,
-      required: [true, "Please provide a price for this product"],
+      required: [true, "Please provide a price for this Stock"],
       min: [0, "Price can't be negative"],
     },
     unit: {
       type: String,
-      required: [true, "Please provide a unit for this product"],
+      required: [true, "Please provide a unit for this Stock"],
       enum: {
         values: ["kg", "liter", "pcs", "bag"],
         message: "Unit value can't be {VALUE}, must be kg/liter/pcs/bag",
@@ -64,7 +69,7 @@ const productSchema = mongoose.Schema(
     },
     quantity: {
       type: Number,
-      required: [true, "Please provide a quantity for this product"],
+      required: [true, "Please provide a quantity for this Stock"],
       min: [0, "Quantity can't be negative"],
       validate: {
         validator: (value) => {
@@ -85,8 +90,35 @@ const productSchema = mongoose.Schema(
         message: "Status can't be {VALUE}",
       },
     },
+    store: {
+      name: {
+        type: String,
+        required: [true, "Please provide a name for this Stock"],
+        trim: true,
+        unique: [true, "Name must be unique!"],
+        lowercase: true,
+        minLength: [3, "Name must be at least three characters"],
+        maxLength: [100, "Too large name"],
+      },
+      id: {
+        type: ObjectID,
+        require: true,
+        ref: "Store",
+      },
+      suppliedBy: {
+        name: {
+          type: String,
+          required: [true, "Please provide a supplier name"],
+          trim: true,
+        },
+        id: {
+          type: ObjectID,
+          ref: "Supplier",
+        },
+      },
+    },
   },
   { timestamps: true }
 );
 
-exports.Product = mongoose.model("Product", productSchema);
+exports.Stock = mongoose.model("Stock", stockSchema);
