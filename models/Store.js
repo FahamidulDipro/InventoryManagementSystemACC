@@ -31,14 +31,14 @@ const storeSchema = mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
-    manager: {
-      name: String,
-      contactNumber: String,
-      id: {
-        type: ObjectID,
-        ref: User,
-      },
-    },
+    // manager: {
+    //   name: String,
+    //   contactNumber: String,
+    //   id: {
+    //     type: ObjectID,
+    //     ref: User,
+    //   },
+    // },
   },
   { timestamps: true }
 );
