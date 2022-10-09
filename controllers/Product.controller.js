@@ -29,3 +29,14 @@ exports.createProducts = async (req, res, next) => {
     });
   }
 };
+
+exports.fileupload = async (req, res) => {
+  try {
+    res.status(200).json(req.file);
+  } catch (error) {
+    res.status(400).json({
+      status: "Failed",
+      error: error.message,
+    });
+  }
+};
